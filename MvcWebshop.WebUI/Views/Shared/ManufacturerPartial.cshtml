@@ -1,0 +1,47 @@
+﻿@model MvcWebshop.WebUI.Entities.Manufacturer
+
+<div class="col-sm-3 col-md-3" style="margin: 0px 0px 30px 0px;">
+    <div class="thumbnail nopadding shadow">
+        <div class="thumbnail-overlay-holder">
+            <a>
+                @if (Model.ImgPath != null)
+                {
+                    <img src="@Url.Content(Model.ImgPath)" alt="Beer picture" />
+                }
+                else
+                {
+                    <img src="~/Content/beer.png" alt="Beer picture" />
+                }
+            </a>
+            <a href="@Url.RouteUrl("breweryDetail", new { id = Model.ManufacturerId })">
+                <div class="thumbnail-overlay">
+                    <div class="thumbnail-overlay-text">@Model.Description</div>
+                </div>
+            </a>
+        </div>
+        <div class="caption" style="padding-top: 0px !important; overflow:hidden!important; white-space:nowrap!important;">
+            <h3>@Model.Name</h3>
+
+
+            @if (Model.Products.Count > 0)
+            { <a style="text-decoration:none; color:#000" href="@Url.Action("List", "BeerProducts", new { manufacturerId = Model.ManufacturerId })">
+                                <h4>
+                                    @Model.Products.Count @if (Model.Products.Count > 1)
+                                    { <text>products</text> }
+                                    else
+                                    { <text>product</text> }
+                                </h4>
+                            </a> }
+            else
+            { <h4>@Model.Products.Count product</h4> }
+            @*<h4>@Model.Manufacturer.Name</h4>*@
+            @*<p>@Model.Description</p>*@
+
+            <div class="row">
+                @*TODO FLOAT TO RIGHT PLACE*@
+                @*<div class="col-md-6 pull-left"><h5>BLABLABLA</h5></div>*@
+            </div>
+        </div>
+    </div>
+</div>
+@*@Html.Partial("BeerSummary")*@

@@ -1,0 +1,28 @@
+﻿@*@model IEnumerable<MvcWebshop.WebUI.Entities.BeerProduct>*@
+@model PagedList.IPagedList<MvcWebshop.WebUI.Entities.BeerProduct>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Beers - Admin";
+}
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/__paginationBind.js")
+}
+
+<div class="row">
+    <div class="col-md-6 col-xs-6">
+        <h2>Beers</h2>
+    </div>
+    <div class="col-md-6 col-xs-6 text-right">
+        @Html.ActionLink("Add new", "Create", null, new { @class = "btn-admin-add btn btn-success" })
+    </div>
+</div>
+
+@using (Html.BeginForm("Index", "BeerProducts"))
+{
+    @Html.Partial("SearchPartial", "Search...")
+}
+
+<hr />
+@Html.Partial("ProductAdminPartial", Model)

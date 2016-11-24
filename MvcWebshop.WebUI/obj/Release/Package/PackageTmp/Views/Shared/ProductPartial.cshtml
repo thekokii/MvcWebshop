@@ -1,0 +1,58 @@
+﻿@model MvcWebshop.WebUI.Entities.BeerProduct
+
+<div class="col-sm-4 col-md-3 col-xs-6" style="margin: 0px 0px 30px 0px;">
+    <div class="thumbnail nopadding shadow">
+        <div class="thumbnail-overlay-holder img11-holder">
+            @if (Model.BeerReviews.Count > 2)
+            {
+                <div class="rating">@Model.Rating</div>
+            }
+            <a class="img11">
+                @*<img src="~/Content/beer.png" alt="Beer picture" />*@
+                @if (Model.ImgPath != null)
+                {
+                    <img class="img" src="@Url.Content(Model.ImgPath)" alt="Beer picture" />
+                }
+                else
+                {
+                    <img class="img" src="~/Content/beer.png" alt="Beer picture" />
+                }
+            </a>
+            <a href="@Url.RouteUrl("beerDetail", new { id = Model.ProductId })">
+                <div class="thumbnail-overlay">
+                    <div class="thumbnail-overlay-text">@Model.Description</div>
+                </div>
+            </a>
+        </div>
+        <div class="caption" style="padding-top: 0px !important; overflow:hidden!important; white-space:nowrap!important;">
+            <h3>@Model.Name</h3>
+            @if (@ViewBag.ManufacturerId == null)
+            { <h4 style="margin:0!important">@Model.Manufacturer.Name</h4> }
+            @*<p>@Model.Description</p>*@
+
+            <div class="row">
+                @*TODO FLOAT TO RIGHT PLACE*@
+                <div class="col-md-12"><h5>@Model.Price Ft</h5></div>
+                <div class="cart-add col-md-4 col-sm-4 col-xs-6">
+                    <a data-id="@Model.ProductId" class="cart-minus" style="text-decoration:none; user-select:none; cursor:pointer;">-</a>
+                    <input data-id="@Model.ProductId" type="text" style="display:inline-block; width:25px; text-align:center; margin-top:1px;" value="1" />
+                    <a data-id="@Model.ProductId" class="cart-plus" style="text-decoration:none; user-select:none; cursor:pointer;">+</a>
+                </div>
+                <div class="col-md-8 col-sm-8 text-right">
+                    @*If JavaScript is disabled*@
+                    @*@using (Html.BeginForm("AddToCart", "CartLines"))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("id", Model.ProductId)
+                            <input class="btn btn-sm btn-success" type="submit" value="Add to cart" />
+                        }*@
+
+                    @*If JavaScript is disabled*@
+                    <a data-id="@Model.ProductId" class="addBtn btn btn-sm btn-success">Add to cart</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@*@Html.Partial("BeerSummary")*@

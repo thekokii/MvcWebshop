@@ -1,0 +1,5 @@
+c:\users\koki\documents\visual studio 2015\Projects\Re\MvcWebshop\MvcWebshop.Domain\bin\Debug\MvcWebshop.Domain.dll
+c:\users\koki\documents\visual studio 2015\Projects\Re\MvcWebshop\MvcWebshop.Domain\bin\Debug\MvcWebshop.Domain.pdb
+c:\users\koki\documents\visual studio 2015\Projects\Re\MvcWebshop\MvcWebshop.Domain\obj\Debug\MvcWebshop.Domain.csprojResolveAssemblyReference.cache
+c:\users\koki\documents\visual studio 2015\Projects\Re\MvcWebshop\MvcWebshop.Domain\obj\Debug\MvcWebshop.Domain.dll
+c:\users\koki\documents\visual studio 2015\Projects\Re\MvcWebshop\MvcWebshop.Domain\obj\Debug\MvcWebshop.Domain.pdb

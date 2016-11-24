@@ -1,0 +1,18 @@
+namespace MvcWebshop.WebUI.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class ImgPath : DbMigration
+    {
+        public override void Up()
+        {
+            AddColumn("dbo.Products", "ImgPath", c => c.String());
+        }
+        
+        public override void Down()
+        {
+            DropColumn("dbo.Products", "ImgPath");
+        }
+    }
+}

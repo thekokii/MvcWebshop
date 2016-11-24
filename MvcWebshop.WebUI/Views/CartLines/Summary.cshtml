@@ -1,0 +1,8 @@
+﻿@model MvcWebshop.WebUI.Entities.UserInfo
+@if (@Model.CartLines.Sum(cl => cl.Quantity) > 0)
+{
+    <span id="cartText">(<span id="cartNum">@Model.CartLines.Sum(cl => cl.Quantity)</span>)</span>
+}
+else { 
+<span hidden id="cartText" >(<span id="cartNum">@Model.CartLines.Sum(cl => cl.Quantity)</span>)</span>
+}

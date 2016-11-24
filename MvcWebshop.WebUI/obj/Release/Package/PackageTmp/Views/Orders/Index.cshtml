@@ -1,0 +1,19 @@
+﻿@*@model IEnumerable<MvcWebshop.WebUI.Entities.Order>*@
+@model PagedList.IPagedList<MvcWebshop.WebUI.Entities.Order>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Orders - Admin";
+}
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/__paginationBind.js")
+}
+
+<h2>Orders</h2>
+@using (Html.BeginForm("Index", "Orders"))
+{
+    @Html.Partial("SearchPartial", "Search...")
+}
+<hr />
+@Html.Partial("OrderAdminPartial", Model)

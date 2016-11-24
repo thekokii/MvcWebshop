@@ -1,0 +1,77 @@
+﻿@model PagedList.IPagedList<MvcWebshop.WebUI.Entities.BeerReview>
+@using PagedList.Mvc
+
+<div id="content">
+    <div class="panel panel-default">
+        @if (Model.Count() == 0)
+        {
+            <div class="panel-heading">There is no breweries</div>
+        }
+        else
+        {
+            <div class="panel-heading">List of reviews to manage</div>
+            <table class="table">
+                <tr>
+                    <th>
+                        @*@Html.DisplayNameFor(model => model.ReviewId)*@
+                        ID
+                    </th>
+                    <th>
+                        Username
+                    </th>
+                    <th>
+                        @*@Html.DisplayNameFor(model => model.BeerProduct.Name)*@
+                    </th>
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.Aroma)
+                        </th>*@
+                    <th>
+                        @*@Html.DisplayNameFor(model => model.Text)*@
+                    </th>
+                    <th class="text-right">
+                        Actions
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReviewId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserInfo.ApplicationUser.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BeerProduct.Name)
+                        </td>
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.Aroma)
+                            </td>*@
+                        <td>
+                            @*@Html.DisplayFor(modelItem => item.Text)*@
+                            @if (item.Text.Length > 100)
+                            {
+                                @item.Text.Substring(0, 100)
+                            }
+                            else
+                            {
+                                @item.Text
+                            }
+                        </td>
+                        <td class="text-right col-md-4">
+                            @Html.ActionLink("Details", "Details", new { id = item.ReviewId }, new { @class = "removeBtn btn btn-sm btn-primary" })
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ReviewId }, new { @class = "removeBtn btn btn-sm btn-warning" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ReviewId }, new { @class = "removeBtn btn btn-sm btn-danger" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        }
+
+    </div>
+    <div id="contentPager" style="text-align:center">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { searchString = @ViewBag.SearchString, page, pageSize = @ViewBag.PageSize }))
+    </div>
+</div>

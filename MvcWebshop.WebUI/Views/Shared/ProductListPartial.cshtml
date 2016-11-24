@@ -1,0 +1,17 @@
+﻿@model PagedList.IPagedList<MvcWebshop.WebUI.Entities.BeerProduct>
+@using PagedList.Mvc
+
+<div id="content">
+    <div class="jumbotron shadow">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                @Html.Partial("ProductPartial", item)
+            }
+        </div>
+    </div>
+
+    <div id="contentPager" style="text-align:center">
+        @Html.PagedListPager(Model, page => Url.Action("List", new { searchString = @ViewBag.SearchString, page, pageSize = @ViewBag.PageSize, manufacturerId = @ViewBag.ManufacturerId, descending = @ViewBag.Descending, orderBy = ViewBag.OrderBy }))
+    </div>
+</div>

@@ -1,0 +1,21 @@
+﻿@*@model IEnumerable<MvcWebshop.WebUI.Entities.BeerReview>*@
+@model PagedList.IPagedList<MvcWebshop.WebUI.Entities.BeerReview>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Reviews - Admin";
+}
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/__paginationBind.js")
+}
+
+<h2>Reviews</h2>
+
+@using (Html.BeginForm("Index", "BeerReviews"))
+{
+    @Html.Partial("SearchPartial", "Search...")
+}
+
+<hr />
+@Html.Partial("ReviewAdminPartial", Model)

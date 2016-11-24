@@ -1,0 +1,87 @@
+﻿@model PagedList.IPagedList<MvcWebshop.WebUI.Entities.Manufacturer>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Breweries";
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $(document).on("click", "#contentPager a", function () {
+                $.ajax({
+                    url: $(this).attr("href"),
+                    type: 'GET',
+                    cache: false,
+                    success: function (result) {
+                        $('#content').html(result);
+                    }
+                });
+                return false;
+            });
+        });
+
+    </script>
+}
+
+@*<h2 class="funny-header deg-2 brown shadow" style="margin-bottom:0 !important">Breweries</h2>*@
+
+<div class="inline-block">
+    <div class="inline-block">
+        @if (ViewBag.SearchString != null)
+        {
+            <h2>Search result for <i>@ViewBag.SearchString</i></h2>
+        }
+        else
+        {
+            <h2 class="funny-header deg-2 brown shadow">Breweries</h2>
+        }
+    </div>
+    <div class="inline-block">
+        @using (Html.BeginForm("List", "Manufacturers"))
+            {
+            <div class="input-group shadow">
+                @Html.TextBox("searchString", null, new { @class = "form-control", @placeholder = "Search for beer or brewery..." })
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        }
+    </div>
+</div>
+<hr />
+
+@*
+    <div class="inline-block">
+        <div class="inline-block">
+            @if (ViewBag.SearchString != null)
+            {
+                <h2>Search result for <i>@ViewBag.SearchString</i></h2>
+            }
+            else
+            {
+                <h2>Beers</h2>
+            }
+        </div>
+        <div class="inline-block">
+            @using (Html.BeginForm("List", "BeerProducts"))
+                {
+                <div class="input-group shadow">
+                    @Html.TextBox("searchString", null, new { @class = "form-control", @placeholder = "Search for beer or brewery..." })
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            }
+        </div>
+    </div>
+    <hr />
+*@
+
+@Html.Partial("ManufacturerListPartial", Model)

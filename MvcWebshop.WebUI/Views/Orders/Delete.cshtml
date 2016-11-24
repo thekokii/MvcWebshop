@@ -1,0 +1,99 @@
+﻿@model MvcWebshop.WebUI.Entities.Order
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Cancelling order</h2>
+
+<div>
+
+    <div class="row">
+        <div class="col-md-7 col-xs-7">
+            <h3 class="nomargin">Are you sure you want to cancel this order?</h3>
+        </div>
+        <div class="col-md-5 col-xs-5 text-right">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Yes" class="btn btn-danger" />
+                    @if (User.IsInRole("Admin"))
+                    { @Html.ActionLink("No", "Index", "admin/orders", null, new { @class = "btn btn-primary" }) }
+                    else
+                    { @Html.ActionLink("No", "list", null, new { @class = "btn btn-primary" }) }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            <div id="cart-has-item" class="panel panel-default">
+                <div class="panel-heading">Ordered on @Model.DateTime.ToString("yyyy-MM-dd HH:mm")</div>
+                <table class="table">
+                    <tr>
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.Product.ProductId)*@
+                            Product ID
+                        </th>
+                        <th>
+                            Name
+                            @*@Html.DisplayNameFor(model => model.Product.Name)*@
+                        </th>
+                        <th>
+                            Quantity
+                            @*@Html.DisplayNameFor(model => model.Product.Price)*@
+                        </th>
+                        <th>
+                            Price
+                            @*@Html.DisplayNameFor(model => model.Quantity)*@
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model.OrderLines)
+                    {
+                        <tr id="row-@item.ProductId">
+                            <td>
+                                @Html.ActionLink(item.Product.ProductId.ToString(), "Details", "BeerProducts", new { id = item.Product.ProductId }, new { @style = "text-decoration:none;color:black;" })
+                                @*@Html.DisplayFor(modelItem => item.Product.ProductId)*@
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Product.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Product.Price)
+                            </td>
+
+                            @*If JavaScript is disabled*@
+                            @*<td>
+                                    @using (Html.BeginForm("RemoveFromCart", "CartLines"))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("id", item.Product.ProductId)
+                                        <input class="btn btn-sm btn-warning" type="submit" value="Remove" />
+                                    }
+                                </td>*@
+
+                            @*If JavaScript is enabled*@
+                            @*<td>
+                                    <div style="text-align:right; padding-right:7px;">
+                                        <a data-id="@item.ProductId" class="removeBtn btn btn-sm btn-danger">Remove</a>
+                                    </div>
+                                </td>*@
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

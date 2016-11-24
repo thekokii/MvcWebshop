@@ -1,0 +1,143 @@
+﻿@model MvcWebshop.WebUI.Entities.Manufacturer
+@*@model MvcWebshop.WebUI.Models.ManufacturerDetailsViewModel*@
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+@section Scripts{
+    <script type="text/javascript">
+
+        var bindMinusPlusBtns = function () {
+            $(".cart-minus").click(function () {
+                var input = $("input[data-id='" + $(this).attr("data-id") + "'");
+                var value = parseInt(input.val());
+                if (value > 2) {
+                    input.val(value - 1);
+                } else {
+                    input.val(1);
+                }
+            });
+
+            $(".cart-plus").click(function () {
+                var input = $("input[data-id='" + $(this).attr("data-id") + "'");
+                var value = parseInt(input.val());
+                if (value < 100) {
+                    input.val(value + 1);
+                } else if (isNaN(value)) {
+                    input.val(1);
+                }
+            });
+        }
+
+        var bindAddToCartBtns = function () {
+            $(".addBtn").click(function () {
+                var value = $("input[data-id='" + $(this).attr("data-id") + "'").val();
+                if(!isNaN(value) && value > 0){
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("AddToCartAJAX", "cart")',
+                        contentType: "application/json; charset=utf-8",
+                        data: "{ id: " + $(this).attr("data-id") + ", quantity: " + $("input[data-id='" + $(this).attr("data-id") + "'").val() + " }",
+                        dataType: 'json',
+                        success: function (result) {
+                            //var cartNum = $("#cartNum").text();
+                            //cartNum++;
+                            $("#cartNum").text(result);
+                            //$("#cartNum").text(cartNum);
+                            $("#cartText").fadeIn('fast');
+                        }
+                    });
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+            //bindMinusPlusBtns();
+            //bindAddToCartBtns();
+
+            $.ajax({
+                url: '@Html.Raw(@Url.Action("List", "BeerProducts", new { manufacturerId = @ViewBag.ManufacturerId, page = 1, pageSize = @ViewBag.PageSize}))',
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#content').html(result);
+                    //alert();
+                    bindMinusPlusBtns();
+                    bindAddToCartBtns();
+
+                    $(document).on("click", "#contentPager a", function () {
+                        if ($(this).attr("href") != null) {
+                            $.ajax({
+                                url: $(this).attr("href"),
+                                type: 'GET',
+                                cache: false,
+                                success: function (result) {
+                                    $('#content').html(result);
+                                    bindMinusPlusBtns();
+                                    bindAddToCartBtns();
+                                }
+                            });
+                        }
+                        return false;
+                    });
+
+                }
+            });
+        });
+    </script>
+}
+
+<h2 class="funny-header deg2 cyan shadow">@Model.Name</h2> <h3 class="funny-header deg-3 green shadow">brewery</h3>
+<hr />
+
+<div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="thumbnail nomargin">
+                @if (Model.ImgPath == null)
+                {
+                    <img src="~/Content/beer.png" />
+                }
+                else
+                {
+                    <img src="@Model.ImgPath" />
+                }
+            </div>
+        </div>
+        <div class="col-md-9 form-horizontal shadow" style="background:whitesmoke;">
+            <div class="form-group" style="margin:10px!important;">
+                <h4 class="nomargin col-md-2" style="text-align:right"><b>@Html.DisplayNameFor(model => model.Name)</b></h4>
+                <div class="col-md-10">
+                    <h4 class="nomargin">@Html.DisplayFor(model => model.Name)</h4>
+                </div>
+            </div>
+            <div class="form-group" style="margin:10px!important;">
+                <h4 class="nomargin col-md-2" style="text-align:right"><b>@Html.DisplayNameFor(model => model.Description)</b></h4>
+                <div class="col-md-10">
+                    <h4 class="nomargin">@Html.DisplayFor(model => model.Description)</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <h3 style="margin-top:0px!important">Beers from this brewery</h3>
+    </div>
+    @if (Model.Products.Count > 0)
+            {
+        <div id="content" class="col-md-12"></div>
+                @*@Html.Action("List", "BeerProducts", new { manufacturerId = Model.ManufacturerId })*@
+    }
+    else
+    {
+        <div class="col-md-12">
+            <h3>No product is added yet.</h3>
+        </div>
+    }
+</div>

@@ -1,0 +1,127 @@
+﻿@model MvcWebshop.WebUI.Entities.BeerProduct
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<h2 class="funny-header deg2 cyan shadow">@Model.Name</h2>
+<h4 class="funny-header deg-3 light-blue shadow">from @Model.Manufacturer.Name</h4>
+<hr />
+
+<div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="thumbnail nomargin">
+                @if (Model.ImgPath == null)
+                {
+                    <img src="~/Content/beer.png" />
+                }
+                else
+                {
+                    <img src="@Model.ImgPath" />
+                }
+            </div>
+            @if (!User.IsInRole("Admin"))
+            {
+                <div>
+                    @Html.ActionLink("Write a review", "Create", "BeerReviews", new { productId = Model.ProductId, returnUrl = Request.Url.PathAndQuery }, new { @class = "btn-review btn btn-success" })
+                </div>
+            }
+        </div>
+        <div class="col-md-9 form-horizontal shadow" style="background:whitesmoke; padding-top:5px; padding-bottom:5px; margin-top:15px;">
+            <div class="form-group" style="margin:10px!important;">
+                <h4 class="nomargin col-md-3"><b>@Html.DisplayNameFor(model => model.Name)</b></h4>
+                <div class="col-md-9">
+                    <h4 class="nomargin">@Html.DisplayFor(model => model.Name)</h4>
+                </div>
+            </div>
+            <div class="form-group" style="margin:10px!important;">
+                <h4 class="nomargin col-md-3"><b>Brewery</b></h4>
+                <div class="col-md-9">
+                    <h4 class="nomargin">@Html.DisplayFor(model => model.Manufacturer.Name)</h4>
+                </div>
+            </div>
+            <div class="form-group" style="margin:10px!important;">
+                <h4 class="nomargin col-md-3"><b>@Html.DisplayNameFor(model => model.ABV)</b></h4>
+                <div class="col-md-9">
+                    <h4 class="nomargin">@Html.DisplayFor(model => model.ABV)</h4>
+                </div>
+            </div>
+            <div class="form-group" style="margin:10px!important;">
+                <h4 class="nomargin col-md-3"><b>@Html.DisplayNameFor(model => model.Quantity)</b></h4>
+                <div class="col-md-9">
+                    <h4 class="nomargin">@Html.DisplayFor(model => model.Quantity)</h4>
+                </div>
+            </div>
+            <div class="form-group" style="margin:10px!important;">
+                <h4 class="nomargin col-md-3"><b>@Html.DisplayNameFor(model => model.Price)</b></h4>
+                <div class="col-md-9">
+                    <h4 class="nomargin">@Html.DisplayFor(model => model.Price)</h4>
+                </div>
+            </div>
+            <div class="form-group" style="margin:10px!important;">
+                <h4 class="nomargin col-md-3"><b>Rating</b></h4>
+                <div class="col-md-9">
+                    @if (Model.BeerReviews.Count > 2)
+                    {
+                        <h4 class="nomargin">@Model.Rating / 5</h4>
+                    }
+                    else
+                    {
+                        <h4 class="nomargin">N/A</h4>
+                    }
+                </div>
+            </div>
+            <div class="form-group" style="margin:10px!important;">
+                <h4 class="nomargin col-md-3"><b>@Html.DisplayNameFor(model => model.Description)</b></h4>
+                <div class="col-md-9">
+                    <h4 class="nomargin">@Html.DisplayFor(model => model.Description)</h4>
+                </div>
+            </div>
+
+
+            @*<div class="col-md-2 text-right text-strong">
+                    @Html.DisplayNameFor(model => model.Manufacturer.Name)<br />
+                    @Html.DisplayNameFor(model => model.Name)<br />
+                    @Html.DisplayNameFor(model => model.Quantity)<br />
+                    @Html.DisplayNameFor(model => model.Price)<br />
+                    @Html.DisplayNameFor(model => model.Description)<br />
+                    @Html.DisplayNameFor(model => model.ABV)<br />
+                </div>
+                <div class="col-md-9">
+                    @Html.DisplayFor(model => model.Manufacturer.Name)<br />
+                    @Html.DisplayFor(model => model.Name)<br />
+                    @Html.DisplayFor(model => model.Quantity)<br />
+                    @Html.DisplayFor(model => model.Price)<br />
+                    @Html.DisplayFor(model => model.Description)<br />
+                    @Html.DisplayFor(model => model.ABV)<br />
+                </div>*@
+
+        </div>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    @if (Model.BeerReviews.Count > 0)
+    {
+        foreach (var br in Model.BeerReviews)
+        {
+            @*<div class="col-md-10 col-md-offset-1">*@
+            <div class="col-md-6">
+                @Html.Partial("ReviewSummary", br)
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-md-12">
+            <h3 class="funny-header deg-1 red shadow">No reviews yet. :(</h3>
+        </div>
+    }
+
+</div>
+@*<p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

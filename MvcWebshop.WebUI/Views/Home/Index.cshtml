@@ -1,0 +1,71 @@
+﻿@model IEnumerable<MvcWebshop.WebUI.Entities.BeerProduct>
+
+@{
+    ViewBag.Title = "Welcome";
+}
+
+<div class="jumbotron shadow search">
+    <div class="row">
+        <div class="col-md-12 center-block">
+            @using (Html.BeginForm("List", "BeerProducts"))
+            {
+                <div class="input-group">
+                    @Html.TextBox("searchString", null, new { @class = "form-control", @placeholder = "Search for beer or brewery..." })
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron shadow">
+    <h2 class="funny-header shadow red deg2">Top ABV</h2>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            @*<div class="">@Html.Partial("ProductPartial", item)</div>*@
+            @Html.Partial("ProductIndexPartial", item);
+        }
+    </div>
+
+
+    @*<div class="row">
+        <div class="col-md-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h2>Getting started</h2>
+                    <p>
+                        ASP.NET MVC gives you a powerful, patterns-based way to build...
+                    </p>
+                    <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h2>Getting started</h2>
+                    <p>
+                        ASP.NET MVC gives you a powerful, patterns-based way to build...
+                    </p>
+                    <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h2>Getting started</h2>
+                    <p>
+                        ASP.NET MVC gives you a powerful, patterns-based way to build...
+                    </p>
+                    <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+                </div>
+            </div>
+        </div>
+    </div>*@
+</div>

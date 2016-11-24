@@ -1,0 +1,33 @@
+﻿@model MvcWebshop.WebUI.Entities.BeerProduct
+
+<div class="col-sm-4 col-md-4 col-xs-6" style="margin: 0px 0px 30px 0px;">
+    <div class="thumbnail nopadding shadow">
+        <div class="thumbnail-overlay-holder img11-holder">
+                <div class="abv" style="float:left!important;">@Model.ABV %</div>
+            <a class="img11">
+                @*<img src="~/Content/beer.png" alt="Beer picture" />*@
+                @if (Model.ImgPath != null)
+                {
+                    <img src="@Url.Content(Model.ImgPath)" alt="Beer picture" />
+                }
+                else
+                {
+                    <img src="~/Content/beer.png" alt="Beer picture" />
+                }
+            </a>
+            <a href="@Url.RouteUrl("beerDetail", new { id = Model.ProductId })">
+                <div class="thumbnail-overlay">
+                    <div class="thumbnail-overlay-text">@Model.Description</div>
+                </div>
+            </a>
+        </div>
+        <div class="caption" style="padding-top: 0px !important; overflow:hidden!important; white-space:nowrap!important;">
+            <h3>@Model.Name</h3>
+            @if (@ViewBag.ManufacturerId == null)
+            { <h4 style="margin:0!important">@Model.Manufacturer.Name</h4> }
+            @*<p>@Model.Description</p>*@
+
+        </div>
+    </div>
+</div>
+

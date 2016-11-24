@@ -1,0 +1,75 @@
+﻿@model IEnumerable<MvcWebshop.WebUI.Entities.Order>
+
+@{
+    ViewBag.Title = "Orders";
+}
+
+<h2 class="funny-header deg-2 cyan shadow">Orders</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            @if (Model.Count() == 0)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">You haven't ordered anything yet! :(</div>
+                </div>
+            }
+            else
+            {
+                <div id="cart-has-item" class="panel panel-default">
+                    <div class="panel-heading">List of your orders</div>
+
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Order ID
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DateTime)
+                            </th>
+                            <th>Spent</th>
+                            <th class="text-center">
+                                Status
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                        @Html.ActionLink(item.OrderId.ToString(), "Details", "Orders", new { id = item.OrderId }, new { @style = "text-decoration:none;color:black;" })
+                                </td>
+                                <td>
+                                    @item.DateTime.ToString("yyyy-MM-dd HH:mm")
+                                </td>
+                                <td>
+                                    @item.OrderLines.Sum(ol => ol.Quantity * ol.Product.Price)
+                                </td>
+                                <td class="text-center">
+                                    @if (item.Shipped)
+                                    { <text>Shipped</text> }
+                                    else
+                                    { <text>Not shipped yet</text>}
+                                </td>
+                                <td class="text-right">
+                                    @if (item.Shipped)
+                                    {
+                                        @Html.ActionLink("Cancel", "Delete", new { id = item.OrderId }, new { @class = "btn btn-default disabled" })
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Cancel", "Delete", new { id = item.OrderId }, new { @class = "btn btn-danger" })
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

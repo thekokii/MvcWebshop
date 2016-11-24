@@ -1,0 +1,85 @@
+﻿@*@model IEnumerable<MvcWebshop.WebUI.Entities.OrderLine>*@
+@model MvcWebshop.WebUI.Entities.Order
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Order details</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+            @if (Model.OrderLines.Count() == 0)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">This order should not exist! :(</div>
+                </div>
+            }
+            else
+            {
+                <div id="cart-has-item" class="panel panel-default">
+                    <div class="panel-heading">Ordered on @Model.DateTime.ToString("yyyy-MM-dd HH:mm")</div>
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.Product.ProductId)*@
+                                Product ID
+                            </th>
+                            <th>
+                                Name
+                                @*@Html.DisplayNameFor(model => model.Product.Name)*@
+                            </th>
+                            <th>
+                                Price
+                                @*@Html.DisplayNameFor(model => model.Product.Price)*@
+                            </th>
+                            <th>
+                                Quantity
+                                @*@Html.DisplayNameFor(model => model.Quantity)*@
+                            </th>
+                        </tr>
+
+                        @foreach (var item in Model.OrderLines)
+                {
+                            <tr id="row-@item.ProductId">
+                                <td>
+                                    @Html.ActionLink(item.Product.ProductId.ToString(), "Details", "BeerProducts", new { id = item.Product.ProductId }, new { @style = "text-decoration:none;color:black;" })
+                                    @*@Html.DisplayFor(modelItem => item.Product.ProductId)*@
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Product.Price)
+                                </td>
+
+                                @*If JavaScript is disabled*@
+                                @*<td>
+                                        @using (Html.BeginForm("RemoveFromCart", "CartLines"))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            @Html.Hidden("id", item.Product.ProductId)
+                                            <input class="btn btn-sm btn-warning" type="submit" value="Remove" />
+                                        }
+                                    </td>*@
+
+                                @*If JavaScript is enabled*@
+                                @*<td>
+                                        <div style="text-align:right; padding-right:7px;">
+                                            <a data-id="@item.ProductId" class="removeBtn btn btn-sm btn-danger">Remove</a>
+                                        </div>
+                                    </td>*@
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

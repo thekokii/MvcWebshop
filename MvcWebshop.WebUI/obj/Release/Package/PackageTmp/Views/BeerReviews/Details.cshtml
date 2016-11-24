@@ -1,0 +1,45 @@
+﻿@model MvcWebshop.WebUI.Entities.BeerReview
+
+@{
+    ViewBag.Title = "Review from " + Model.UserInfo.ApplicationUser.UserName;
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BeerReview</h4>
+    <hr />
+
+    @Html.Partial("ReviewSummary", Model)
+
+    @*<dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BeerProduct.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeerProduct.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Aroma)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Aroma)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+
+    </dl>*@
+</div>
+<p>
+    @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ReviewId }, new { @class = "btn btn-default" })
+</p>

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<MvcWebshop.WebUI.Entities.CartLine>
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //Document.ready -> link up remove event handler
+            $(".removeBtn").click(function () {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("RemoveFromCartAJAX", "cart")',
+                    contentType: "application/json; charset=utf-8",
+                    data: "{ id: " + $(this).attr("data-id") + "}",
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#row-' + result.id).fadeOut('slow');
+                        var cartNum = $("#cartNum").text();
+                        cartNum = cartNum - parseInt(result.quantity);
+                        if (cartNum == 0) {
+                            $("#cart-has-item").hide();
+                            $("#cart-empty").show();
+                            $("#cartText").fadeOut('fast', function () {
+                                $("#cartNum").text(cartNum);
+                            });
+                        } else {
+                            $("#cartNum").text(cartNum);
+                        }
+                        //$('#cart-status').text('Cart (' + result.CartCount + ')');
+                        //$('#update-message').text(result.Message);
+                        //$('#cart-total').text(result.CartTotal);
+                    }
+                });
+            });
+        });
+
+    </script>
+}
+
+<h2 class="funny-header deg-3 light-blue shadow">Cart</h2>
+<hr />
+
+<div class="panel panel-default">
+    @if (Model.Count() == 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">Your cart is empty!</div>
+        </div>
+    }
+    else
+    {
+        <div hidden id="cart-empty" class="panel panel-default">
+            <div class="panel-heading">Your cart is empty!</div>
+        </div>
+        <div id="cart-has-item" class="panel panel-default">
+            <div class="panel-heading">Your cart</div>
+            <table class="table">
+                <tr>
+                    <th>
+                        @*@Html.DisplayNameFor(model => model.Product.ProductId)*@
+                        Product ID
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Product.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Product.Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Quantity)
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr id="row-@item.ProductId">
+                        <td>
+                            @Html.ActionLink(item.Product.ProductId.ToString(), "Details", "BeerProducts", new { id = item.Product.ProductId}, new { @style = "text-decoration:none;color:black;" })
+                            @*@Html.DisplayFor(modelItem => item.Product.ProductId)*@
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Product.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Product.Price) Ft
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Quantity)
+                        </td>
+
+                        @*If JavaScript is disabled*@
+                        @*<td>
+                                @using (Html.BeginForm("RemoveFromCart", "CartLines"))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("id", item.Product.ProductId)
+                                    <input class="btn btn-sm btn-warning" type="submit" value="Remove" />
+                                }
+                            </td>*@
+
+                        @*If JavaScript is enabled*@
+                        <td>
+                            <div style="text-align:right; padding-right:7px;">
+                                <a data-id="@item.ProductId" class="removeBtn btn btn-sm btn-danger">Remove</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                <tr style="border-top:solid 2px black">
+                    <td></td>
+                    <td></td>
+                    <td>@Model.Sum(cl => cl.Quantity * cl.Product.Price) Ft</td>
+                    <td>@Model.Sum(cl => cl.Quantity) items</td>
+                    <td></td>
+                </tr>
+
+            </table>
+
+            <div class="panel-footer" style="text-align:right">
+                @Html.ActionLink("Checkout", "Checkout", null, new { @class = "btn btn-warning right" })
+            </div>
+        </div>
+    }
+</div>

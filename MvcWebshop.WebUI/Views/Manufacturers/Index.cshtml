@@ -1,0 +1,28 @@
+﻿@*@model IEnumerable<MvcWebshop.WebUI.Entities.Manufacturer>*@
+@model PagedList.IPagedList<MvcWebshop.WebUI.Entities.Manufacturer>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Breweries - Admin";
+}
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/__paginationBind.js")
+}
+
+<div class="row">
+    <div class="col-md-6 col-xs-6">
+        <h2>Breweries</h2>
+    </div>
+    <div class="col-md-6 col-xs-6 text-right">
+        @Html.ActionLink("Add new", "Create", null, new { @class = "btn-admin-add btn btn-success" })
+    </div>
+</div>
+
+@using (Html.BeginForm("Index", "Manufacturers"))
+{
+    @Html.Partial("SearchPartial", "Search...")
+}
+
+<hr />
+@Html.Partial("ManufacturerAdminPartial", Model)

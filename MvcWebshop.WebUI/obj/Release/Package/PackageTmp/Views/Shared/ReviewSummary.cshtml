@@ -1,0 +1,40 @@
+﻿@model MvcWebshop.WebUI.Entities.BeerReview
+
+<div class="panel panel-primary shadow">
+    <div class="panel panel-heading nomargin nopadding">
+        <div class="row">
+            @*<div class="inline-block"><img src="~/Content/beer.png" style="margin-right:5px;" width="50" height="50" /></div>*@
+            @*<div class="inline-block score"><div class="circle big-circle"><strong style="font-size:150%">@Model.Calculated</strong></div></div>*@
+            <div class="rating"  style="margin-right:20px!important">@Model.Calculated</div>
+            <div style="padding:2px;">
+                <div class="col-md-2 col-xs-2 col-sm-2" style="white-space:nowrap">Aroma <strong class="score" style="font-size:120%"> @Model.Aroma</strong></div>
+                <div class="col-md-2 col-xs-2 col-sm-2" style="white-space:nowrap">Appear.<strong class="score" style="font-size:120%"> @Model.Appearance </strong></div>
+                <div class="col-md-2 col-xs-2 col-sm-2" style="white-space:nowrap">Taste<strong class="score" style="font-size:120%"> @Model.Taste </strong></div>
+                <div class="col-md-2 col-xs-2 col-sm-2" style="white-space:nowrap">Palete<strong class="score" style="font-size:120%"> @Model.Palate </strong></div>
+                <div class="col-md-2 col-xs-2 col-sm-2" style="white-space:nowrap">Overall<strong class="score" style="font-size:120%"> @Model.Overall </strong></div>
+            </div>
+                <div style="padding:2px;">
+                <div style="margin-top:3px" class="col-md-6 col-xs-6 col-sm-6">@Model.UserInfo.ApplicationUser.UserName</div>
+                <div style="margin-top:3px" class="col-md-6 col-xs-6 col-sm-6 text-right">@Model.DateTime.Year-@Model.DateTime.Month.ToString("00")-@Model.DateTime.Day.ToString("00")</div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        @Model.Text
+    </div>
+</div>
+
+@*<div class="well">
+        <div class="row">
+            <img src="~/Content/beer.png" class="img-circle" width="30" height="30"/>
+            <div class="col-md-1">@Model.UserInfo.ApplicationUser.UserName</div>
+            <div class="col-md-1">@Model.Calculated</div>
+            <div class="col-md-1">Aroma: @Model.Aroma</div>
+            <div class="col-md-1">Appearance: @Model.Appearance</div>
+            <div class="col-md-1">Taste: @Model.Taste</div>
+            <div class="col-md-1">Palate: @Model.Palate</div>
+            <div class="col-md-1">Overall: @Model.Overall</div>
+            <div class="col-md-4">- @Model.DateTime</div>
+            <div class="col-md-12">@Model.Text</div>
+        </div>
+    </div>*@

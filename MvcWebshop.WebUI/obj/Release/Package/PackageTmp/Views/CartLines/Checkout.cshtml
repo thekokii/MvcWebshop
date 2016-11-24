@@ -1,0 +1,47 @@
+﻿@model MvcWebshop.WebUI.Entities.Order
+
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<h2 class="funny-header deg-2 green shadow">Checkout</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Your cart</div>
+        <table class="table">
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Quantity
+                </th>
+            </tr>
+            @foreach (var item in Model.UserInfo.CartLines)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Product.ProductId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Product.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Quantity)
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <div class="panel-footer text-right">
+            <input type="submit" value="Complete order" class="btn btn-primary" />
+        </div>
+    </div>
+}

@@ -1,0 +1,92 @@
+﻿@model PagedList.IPagedList<MvcWebshop.WebUI.Entities.BeerProduct>
+@using PagedList.Mvc
+
+<div id="content">
+    <div class="panel panel-default">
+        @if (Model.Count() == 0)
+        {
+            <div class="panel-heading">There is no brewery</div>
+        }
+        else
+        {
+            <div class="panel-heading">List of beers to manage</div>
+            <table class="table">
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        @*@Html.DisplayNameFor(model => model.Manufacturer.Name)*@
+                        Brewery
+                    </th>
+                    <th>
+                        @*@Html.DisplayNameFor(model => model.Name)*@
+                    </th>
+                    <th>
+                        @*@Html.DisplayNameFor(model => model.Quantity)*@
+                    </th>
+                    <th>
+                        @*@Html.DisplayNameFor(model => model.Price)*@
+                    </th>
+                    <th>
+                        @*@Html.DisplayNameFor(model => model.Description)*@
+                    </th>
+                    <th class="text-right">
+                        Actions
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr id="row-@item.ManufacturerId">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Manufacturer.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+
+                        @*If JavaScript is disabled*@
+                        @*<td>
+                                @using (Html.BeginForm("RemoveFromCart", "CartLines"))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("id", item.Product.ProductId)
+                                    <input class="btn btn-sm btn-warning" type="submit" value="Remove" />
+                                }
+                            </td>*@
+
+                        @*If JavaScript is enabled*@
+                        <td class="text-right col-md-4">
+                            @Html.ActionLink("Details", "Details", new { id = item.ProductId }, new { @class = "removeBtn btn btn-sm btn-primary" })
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }, new { @class = "removeBtn btn btn-sm btn-warning" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ProductId }, new { @class = "removeBtn btn btn-sm btn-danger" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+            @*<div class="panel-footer">
+                    @Html.ActionLink("Checkout", "Checkout", null, new { @class = "btn btn-warning right" })
+                </div>*@
+        }
+
+
+    </div>
+    <div id="contentPager" style="text-align:center">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { searchString = @ViewBag.SearchString, page, pageSize = @ViewBag.PageSize }))
+    </div>
+</div>

@@ -1,0 +1,126 @@
+﻿@*@model IEnumerable<MvcWebshop.WebUI.Entities.BeerProduct>*@
+@*@model MvcWebshop.WebUI.Models.BeerListViewModel*@
+@model PagedList.IPagedList<MvcWebshop.WebUI.Entities.BeerProduct>
+@using PagedList.Mvc
+
+
+@{
+    if (ViewBag.SearchString != null)
+    {
+        ViewBag.Title = "SEARCH FOR " + ViewBag.SearchString;
+    }
+    else { ViewBag.Title = "Beers"; }
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        var bindMinusPlusBtns = function () {
+            $(".cart-minus").click(function () {
+                var input = $("input[data-id='" + $(this).attr("data-id") + "'");
+                var value = parseInt(input.val());
+                if (value > 2) {
+                    input.val(value - 1);
+                } else {
+                    input.val(1);
+                }
+            });
+
+            $(".cart-plus").click(function () {
+                var input = $("input[data-id='" + $(this).attr("data-id") + "'");
+                var value = parseInt(input.val());
+                if (value < 100) {
+                    input.val(value + 1);
+                } else if(isNaN(value)) {
+                    input.val(1);
+                }
+            });
+        }
+
+        var bindAddToCartBtns = function () {
+            $(".addBtn").click(function () {
+                var value = $("input[data-id='" + $(this).attr("data-id") + "'").val();
+                if(!isNaN(value) && value > 0){
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("AddToCartAJAX", "cart")',
+                        contentType: "application/json; charset=utf-8",
+                        data: "{ id: " + $(this).attr("data-id") + ", quantity: " + $("input[data-id='" + $(this).attr("data-id") + "'").val() + " }",
+                        dataType: 'json',
+                        success: function (result) {
+                            //var cartNum = $("#cartNum").text();
+                            //cartNum++;
+                            $("#cartNum").text(result);
+                            //$("#cartNum").text(cartNum);
+                            $("#cartText").fadeIn('fast');
+                        }
+                    });
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+            bindMinusPlusBtns();
+            bindAddToCartBtns();
+
+            $(document).on("click", "#contentPager a", function () {
+                if($(this).attr("href") != null){
+                    $.ajax({
+                        url: $(this).attr("href"),
+                        type: 'GET',
+                        cache: false,
+                        success: function (result) {
+                            $('#content').html(result);
+                            bindMinusPlusBtns();
+                            bindAddToCartBtns();
+                        }
+                    });
+                }
+                return false;
+            });
+        });
+
+    </script>
+}
+
+<div class="inline-block">
+    <div class="inline-block">
+        @if (ViewBag.SearchString != null)
+        {
+            <h2>Search result for <i>@ViewBag.SearchString</i></h2>
+        }
+        else
+        {
+            if (ViewBag.ManufacturerName != null)
+            {
+                @*<h2>Beers by @ViewBag.ManufacturerId</h2>*@
+                <h2>Beers by @ViewBag.ManufacturerName</h2>
+            }
+            else
+            {
+                <h2 class="funny-header deg-2 blue shadow">Beers</h2>
+            }
+        }
+    </div>
+    <div class="inline-block">
+        @using (Html.BeginForm("List", "BeerProducts"))
+            {
+            <div class="input-group shadow">
+                @Html.TextBox("searchString", null, new { @class = "form-control", @placeholder = "Search for beer or brewery..." })
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        }
+    </div>
+</div>
+<hr />
+
+@Html.Partial("ProductListPartial", Model)
+
+@*<div>
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { searchString = ViewBag.SearchString, page = x }))
+    </div>*@
